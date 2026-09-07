@@ -107,7 +107,7 @@ fn inspect_process(process: &sysinfo::Process) -> ProcessInfo {
         executable,
         command_line: process.cmd().iter().map(|v| v.to_string_lossy().to_string()).collect(),
         cwd: process.cwd().map(path_to_string),
-        user: process.user_id().map(|u| u.to_string_lossy().to_string()),
+        user: process.user_id().map(|u| u.to_string().to_string()),
         memory_bytes: process.memory(),
         virtual_memory_bytes: process.virtual_memory(),
         cpu_percent: process.cpu_usage(),
