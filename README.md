@@ -1,2 +1,0 @@
-# ddg
-Process Id checkup
