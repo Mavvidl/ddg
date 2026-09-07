@@ -1,7 +1,7 @@
 <p align="center">
   <img src="assets/ddg-lion.svg" alt="DDG lion" width="96">
 </p>
-<h1 align="center">DDG — Detect · Analyze · Protect</h1>
+<h1 align="center">DDG</h1>
 <p align="center"><b>Rust pour la collecte locale et la sécurité · Go pour l'orchestration, la réactivité et le réseau</b></p>
 
 <p align="center">
