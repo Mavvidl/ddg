@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "apps": [
+    {"match": ["firefox", "firefox.exe"], "name": "Mozilla Firefox", "publisher": "Mozilla", "category": "browser"},
+    {"match": ["chrome", "chrome.exe", "google-chrome"], "name": "Google Chrome / Chromium", "publisher": "Google / Chromium", "category": "browser"},
+    {"match": ["code", "code.exe"], "name": "Visual Studio Code", "publisher": "Microsoft", "category": "development"},
+    {"match": ["explorer.exe"], "name": "Windows Explorer", "publisher": "Microsoft", "category": "system"}
+  ]
+}
