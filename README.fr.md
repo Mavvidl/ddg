@@ -34,28 +34,99 @@ Avec `--lookup`, Go lance les vérifications en parallèle. La première intégr
 
 Rust protège la frontière bas niveau : collecte de processus, manipulation des chemins et calcul SHA-256 en streaming. Go gère la CLI, les requêtes concurrentes, les timeouts et les rapports.
 
-## Installation
+## Quick start
 
-Pré-requis : Go 1.23+, Rust stable et Cargo.
+Pré-requis : Go 1.23+, Rust stable, Cargo et Git. DDG doit être compilé sur
+le même système d'exploitation que les processus à inspecter.
+
+### Kali Linux
+
+Installer les outils, cloner le dépôt et compiler les deux binaires :
 
 ```bash
+sudo apt update
+sudo apt install -y git golang rustc cargo
 git clone https://github.com/Mavvidl/ddg.git
 cd ddg
-./scripts/run.sh --help
-
-# optionnel : activer le lookup VirusTotal
-cp .env.example .env
-# export DDG_VT_API_KEY="..."
-
-./scripts/run.sh --pid 1234 --text
-./scripts/run.sh --pid 1234 --lookup --json
-./scripts/run.sh --name firefox --text
-./scripts/run.sh --all --lookup --export report.json
+make build
 ```
 
-Pour VirusTotal, définir au préalable `DDG_VT_API_KEY`. Sans cette variable, le lookup reste désactivé proprement.
+Premier test local, sans accès réseau :
 
-Sous Windows : `scripts/build.ps1`.
+```bash
+# Trouver un processus et récupérer un PID pour le test.
+pgrep -n systemd
+
+# Remplacer 1 par un PID renvoyé par pgrep, ps ou top.
+./scripts/run.sh --pid 1 --text
+./scripts/run.sh --name systemd --json
+./scripts/run.sh --all --export report.json
+```
+
+Les noms `firefox` et `google-chrome` conviennent aussi si ces applications
+sont installées. Si un processus n'est pas visible, relancer avec les droits
+nécessaires, par exemple `sudo ./scripts/run.sh --all --text`.
+
+### Windows PowerShell
+
+Installer Git, Go et Rust avec leurs installateurs officiels, ouvrir PowerShell,
+puis compiler les binaires Windows natifs :
+
+```powershell
+git clone https://github.com/Mavvidl/ddg.git
+Set-Location ddg
+.\scripts\build.ps1
+```
+
+Récupérer un PID et effectuer un premier test. Les binaires Windows portent
+l'extension `.exe` :
+
+```powershell
+# Choisir un processus présent sur la machine.
+$pid = (Get-Process explorer | Select-Object -First 1).Id
+.\dist\ddg.exe --agent .\dist\ddg-agent.exe --pid $pid --text
+.\dist\ddg.exe --agent .\dist\ddg-agent.exe --name explorer --json
+.\dist\ddg.exe --agent .\dist\ddg-agent.exe --all --export report.json
+```
+
+Remplacer `explorer` par `Code`, `firefox` ou un nom renvoyé par
+`Get-Process`. Ouvrir PowerShell en tant qu'administrateur si Windows refuse
+l'accès à certains processus. Les binaires Kali/WSL ne permettent pas
+d'inspecter les processus Windows natifs.
+
+### Lookup VirusTotal optionnel
+
+`--lookup` envoie uniquement le hash SHA-256 à VirusTotal. Définir la clé dans
+le shell avant le lancement ; DDG ne charge pas automatiquement les fichiers
+`.env` :
+
+```bash
+# Kali/Linux
+export DDG_VT_API_KEY="votre_cle_ici"
+./scripts/run.sh --name firefox --lookup --json
+```
+
+```powershell
+# Windows PowerShell, pour la session courante uniquement
+$env:DDG_VT_API_KEY = "votre_cle_ici"
+.\dist\ddg.exe --agent .\dist\ddg-agent.exe --name explorer --lookup --json
+```
+
+Sans clé VirusTotal, utiliser les commandes locales ci-dessus. Ne jamais
+committer la clé ni l'inclure dans un rapport exporté.
+
+Pour lancer les tests automatisés après la compilation :
+
+```bash
+go test ./...
+cargo test --manifest-path rust/ddg-agent/Cargo.toml
+```
+
+Pour afficher la syntaxe CLI :
+
+```bash
+./scripts/run.sh --help
+```
 
 ## Signification du verdict
 
