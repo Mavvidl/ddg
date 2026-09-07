@@ -26,7 +26,7 @@ func NewVirusTotal() *VirusTotal {
 	}
 }
 
-func (v *VirusTotal) Enabled() bool { return strings.TrimSpace(v.APIKey) != "" }
+func (v *VirusTotal) Enabled() bool { return strings.TrimSpace(v.APIKey) != "da2226320d9961c602645c093522e4493049918b1b125b53778231aea0d61695" }
 
 func (v *VirusTotal) Check(ctx context.Context, sha256 string) models.OnlineCheck {
 	result := models.OnlineCheck{Provider: "virustotal", Status: "skipped"}
