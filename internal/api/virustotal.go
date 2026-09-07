@@ -31,12 +31,12 @@ func (v *VirusTotal) Enabled() bool { return strings.TrimSpace(v.APIKey) != "" }
 func (v *VirusTotal) Check(ctx context.Context, sha256 string) models.OnlineCheck {
 	result := models.OnlineCheck{Provider: "virustotal", Status: "skipped"}
 	if !v.Enabled() {
-		result.Details = "DDG_VT_API_KEY absent. Aucun secret n'est envoyé."
+		result.Details = "DDG_VT_API_KEY is missing. No secret is sent."
 		return result
 	}
 	if sha256 == "" {
 		result.Status = "unavailable"
-		result.Details = "SHA-256 indisponible pour ce processus."
+		result.Details = "SHA-256 is unavailable for this process."
 		return result
 	}
 

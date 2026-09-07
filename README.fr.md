@@ -39,11 +39,18 @@ Rust protège la frontière bas niveau : collecte de processus, manipulation des
 Pré-requis : Go 1.23+, Rust stable et Cargo.
 
 ```bash
-./scripts/build.sh
-./dist/ddg --pid 1234 --text
-./dist/ddg --pid 1234 --lookup --json
-./dist/ddg --name firefox --text
-./dist/ddg --all --lookup --export report.json
+git clone https://github.com/Mavvidl/ddg.git
+cd ddg
+./scripts/run.sh --help
+
+# optionnel : activer le lookup VirusTotal
+cp .env.example .env
+# export DDG_VT_API_KEY="..."
+
+./scripts/run.sh --pid 1234 --text
+./scripts/run.sh --pid 1234 --lookup --json
+./scripts/run.sh --name firefox --text
+./scripts/run.sh --all --lookup --export report.json
 ```
 
 Pour VirusTotal, définir au préalable `DDG_VT_API_KEY`. Sans cette variable, le lookup reste désactivé proprement.

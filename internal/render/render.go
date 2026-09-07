@@ -15,17 +15,17 @@ func JSON(report models.Report) error {
 }
 
 func Text(report models.Report) {
-	fmt.Printf("DDG %s | cible=%s\n\n", report.ToolVersion, report.Target)
+	fmt.Printf("DDG %s | target=%s\n\n", report.ToolVersion, report.Target)
 	for _, p := range report.Processes {
 		fmt.Printf("[%d] %s\n", p.PID, p.Name)
 		fmt.Printf("  Description : %s\n", p.Description)
-		fmt.Printf("  Exécutable  : %s\n", deref(p.Executable))
-		fmt.Printf("  Mémoire     : %d bytes\n", p.MemoryBytes)
+		fmt.Printf("  Executable  : %s\n", deref(p.Executable))
+		fmt.Printf("  Memory      : %d bytes\n", p.MemoryBytes)
 		fmt.Printf("  CPU         : %.2f%%\n", p.CPUPercent)
 		fmt.Printf("  Application : %s (%s)\n", deref(p.Application.Name), deref(p.Application.Publisher))
-		fmt.Printf("  Légitimité  : %s / confiance=%s\n", p.Legitimacy.Status, p.Legitimacy.Confidence)
+		fmt.Printf("  Legitimacy  : %s / confidence=%s\n", p.Legitimacy.Status, p.Legitimacy.Confidence)
 		if len(p.Legitimacy.Reasons) > 0 {
-			fmt.Printf("  Motifs      : %s\n", strings.Join(p.Legitimacy.Reasons, "; "))
+			fmt.Printf("  Reasons     : %s\n", strings.Join(p.Legitimacy.Reasons, "; "))
 		}
 		for _, c := range p.OnlineChecks {
 			fmt.Printf("  Online/%s   : %s", c.Provider, c.Status)

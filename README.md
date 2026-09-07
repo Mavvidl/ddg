@@ -46,14 +46,18 @@ Rust is deliberately responsible for the low-level boundary: process inspection,
 Requirements: Go 1.23+, Rust stable, Cargo.
 
 ```bash
-cp .env.example .env
-# export DDG_VT_API_KEY="..."   # optional for online lookups
-./scripts/build.sh
+git clone https://github.com/Mavvidl/ddg.git
+cd ddg
+./scripts/run.sh --help
 
-./dist/ddg --pid 1234 --text
-./dist/ddg --pid 1234 --lookup --json
-./dist/ddg --name firefox --text
-./dist/ddg --all --lookup --export report.json
+# optional: configure VirusTotal lookup
+cp .env.example .env
+# export DDG_VT_API_KEY="..."
+
+./scripts/run.sh --pid 1234 --text
+./scripts/run.sh --pid 1234 --lookup --json
+./scripts/run.sh --name firefox --text
+./scripts/run.sh --all --lookup --export report.json
 ```
 
 On Windows, use `scripts/build.ps1`.
